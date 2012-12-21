@@ -19,8 +19,15 @@
 
 default['redis']['bind']         = "127.0.0.1"
 default['redis']['port']         = "6379"
-default['redis']['config_path']  = "/etc/redis/redis.conf"
 default['redis']['daemonize']    = "no"
 default['redis']['timeout']      = "300"
 default['redis']['loglevel']     = "notice"
 default['redis']['password']     = nil
+case platform
+when "fedora"
+  node.set['redis']['package']      = "redis"
+  node.set['redis']['config_path']  = "/etc/redis.conf"
+else
+  node.set['redis']['package']      = "redis-server"
+  node.set['redis']['config_path']  = "/etc/redis/redis.conf"
+end

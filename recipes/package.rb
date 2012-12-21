@@ -18,16 +18,16 @@
 # limitations under the License.
 #
 
-package "redis-server"
+package node['redis']['package']
 
 service "redis" do
-  start_command "/etc/init.d/redis-server start #{node['redis']['config_path']}"
-  stop_command "/etc/init.d/redis-server stop"
-  restart_command "/etc/init.d/redis-server restart"
+  start_command "/etc/init.d/#{node['redis']['package']} start #{node['redis']['config_path']}"
+  stop_command "/etc/init.d/#{node['redis']['package']} stop"
+  restart_command "/etc/init.d/#{node['redis']['package']} restart"
   action :start
 end
 
-template "/etc/redis/redis.conf" do
+template node['redis']['config_path'] do
   source "redis.conf.erb"
   owner "root"
   group "root"
